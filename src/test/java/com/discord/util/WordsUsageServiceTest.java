@@ -1,6 +1,5 @@
 package com.discord.util;
 
-import com.discord.util.WordsUsageService;
 import org.junit.Test;
 
 import java.util.Map;
@@ -14,41 +13,61 @@ public class WordsUsageServiceTest {
 
     @Test
     public void testWordsMap() throws Exception {
-        WordsUsageService ms = new WordsUsageService();
+        WordsUsageService ws = initialiseService(APPLE);
 
-        ms.addWordIfMissing(APPLE);
-        ms.updateWords(APPLE, TEST);
-        ms.updateWords(APPLE, TEST_2);
+        ws.updateWord(APPLE, TEST);
+        ws.updateWord(APPLE, TEST_2);
 
-        try {
-            ms.updateWords("bird", TEST);
-        } catch (Exception e) {
-            assertNotNull(e);
-        }
+        ws.updateWord("bird", TEST);
 
-        assertEquals(1, ms.wordsUsage.entrySet().size());
+        assertEquals(1, ws.wordsUsage.entrySet().size());
 
-        Map<String, Integer> apples = ms.wordsUsage.get(APPLE);
+        Map<String, Integer> apples = ws.wordsUsage.get(APPLE);
         assertEquals(2, apples.entrySet().size());
         assertTrue(apples.get(TEST).equals(1));
     }
 
     @Test
     public void testWordsSummary() throws Exception {
-        WordsUsageService ms = new WordsUsageService();
+        WordsUsageService ws = initialiseService(null);
 
-        String result = ms.getWordsSummary();
+        String result = ws.getWordsSummary();
         assertTrue(result.isEmpty());
 
-        ms.addWordIfMissing(APPLE);
-        result = ms.getWordsSummary();
+        ws.addWord(APPLE);
+        result = ws.getWordsSummary();
         assertFalse(result.isEmpty());
 
-        ms.updateWords(APPLE, TEST);
-        ms.updateWords(APPLE, TEST_2);
-        result = ms.getWordsSummary();
+        ws.updateWord(APPLE, TEST);
+        ws.updateWord(APPLE, TEST_2);
+        result = ws.getWordsSummary();
         assertFalse(result.isEmpty());
     }
 
+    @Test
+    public void testContainsWord() {
+        WordsUsageService ws = initialiseService(null);
+
+        assertFalse(ws.containsWord(APPLE));
+
+        ws.addWord(APPLE);
+        assertTrue(ws.containsWord(APPLE));
+    }
+
+    @Test
+    public void testAddWord() {
+        WordsUsageService ws = initialiseService(null);
+        ws.addWord(APPLE);
+        assertTrue(ws.containsWord(APPLE));
+    }
+
+    private WordsUsageService initialiseService(String word) {
+        WordsUsageService ws = new WordsUsageService();
+
+        if (word != null)
+            ws.addWord(word);
+
+        return ws;
+    }
 
 }

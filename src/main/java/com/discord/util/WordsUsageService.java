@@ -10,7 +10,23 @@ public class WordsUsageService {
      */
     protected final Map<String, Map<String, Integer>> wordsUsage = new HashMap<>();
 
-    protected String getWordsSummary() {
+    public boolean containsWord(String word) {
+        return wordsUsage.containsKey(word);
+    }
+
+    public void updateWord(String word, String author) throws Exception {
+        if (wordsUsage.containsKey(word)) {
+            wordsUsage.get(word).merge(author, 1, (int1, int2) -> int1 + int2);
+        }else{
+            System.out.println("Word " + word + " is not counted yet.");
+        }
+    }
+
+    public void addWord(String word) {
+        wordsUsage.put(word, new HashMap<>());
+    }
+
+    public String getWordsSummary() {
         StringBuilder sb = new StringBuilder();
 
         wordsUsage.keySet().forEach(key -> {
@@ -20,17 +36,5 @@ public class WordsUsageService {
         });
 
         return sb.toString();
-    }
-
-    public void updateWords(String word, String author) throws Exception {
-        if (wordsUsage.containsKey(word)) {
-            wordsUsage.get(word).merge(author, 1, (int1, int2) -> int1 + int2);
-        }else{
-            throw new Exception("Word " + word + " is not counted yet.");
-        }
-    }
-
-    public void addWordIfMissing(String word) {
-        wordsUsage.put(word, new HashMap<>());
     }
 }
