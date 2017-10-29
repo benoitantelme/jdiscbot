@@ -16,6 +16,10 @@ import javax.security.auth.login.LoginException;
 
 public class WordsBot extends ListenerAdapter {
     protected static final String EMPTY_STRING = "";
+    public static final String WORD = "Word ";
+    public static final String HAS_BEEN_ADDED_FOR = " has been added for ";
+    public static final String IS_ALREADY_COUNTED_FOR = " is already counted for.";
+    public static final String EMPTY_WORD = "Empty word";
 
     private static WordsUsageService ms = new WordsUsageService();
 
@@ -45,7 +49,7 @@ public class WordsBot extends ListenerAdapter {
             channel.sendMessage(addCommand(msg, authorName)).queue();
         }else if(ms.containsWord(msg)){
             ms.updateWord(msg, authorName);
-            channel.sendMessage("Word " + msg + " has been counted for " + authorName).queue();
+            channel.sendMessage(WORD + msg + " has been counted for " + authorName).queue();
         }else{
             channel.sendMessage(msg).queue();
         }
@@ -57,10 +61,14 @@ public class WordsBot extends ListenerAdapter {
         String outputMessage = null;
 
         if(!word.isEmpty()){
-            ms.addWord(word);
-            outputMessage = "Word " + word + " has been added for " + authorName;
+            if(ms.containsWord(word)){
+                outputMessage = WORD + word + IS_ALREADY_COUNTED_FOR;
+            }else{
+                ms.addWord(word);
+                outputMessage = WORD + word + HAS_BEEN_ADDED_FOR + authorName;
+            }
         }else{
-            outputMessage = "Word " + word + " is already counted for.";
+            outputMessage = EMPTY_WORD;
         }
 
         return  outputMessage;
