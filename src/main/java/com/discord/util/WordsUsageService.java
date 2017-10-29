@@ -1,4 +1,4 @@
-package com.discord.bot;
+package com.discord.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class WordsUsageService {
         return sb.toString();
     }
 
-    protected void updateWords(String word, String author) throws Exception {
+    public void updateWords(String word, String author) throws Exception {
         if (wordsUsage.containsKey(word)) {
             wordsUsage.get(word).merge(author, 1, (int1, int2) -> int1 + int2);
         }else{
@@ -30,7 +30,7 @@ public class WordsUsageService {
         }
     }
 
-    protected void addWordIfMissing(String word) {
+    public void addWordIfMissing(String word) {
         wordsUsage.put(word, new HashMap<>());
     }
 }

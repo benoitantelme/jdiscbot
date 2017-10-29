@@ -1,4 +1,4 @@
-package com.discord.bot;
+package com.discord.util;
 
 public class BotToken {
 

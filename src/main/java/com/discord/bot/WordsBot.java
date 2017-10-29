@@ -1,5 +1,7 @@
 package com.discord.bot;
 
+import com.discord.util.BotToken;
+import com.discord.util.WordsUsageService;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
