@@ -14,7 +14,7 @@ public class WordsUsageService {
         return wordsUsage.containsKey(word);
     }
 
-    public void updateWord(String word, String author) throws Exception {
+    public void updateWord(String word, String author) {
         if (wordsUsage.containsKey(word)) {
             wordsUsage.get(word).merge(author, 1, (int1, int2) -> int1 + int2);
         }else{

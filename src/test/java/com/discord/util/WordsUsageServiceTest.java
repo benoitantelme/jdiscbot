@@ -12,7 +12,7 @@ public class WordsUsageServiceTest {
     public static final String TEST_2 = "test2";
 
     @Test
-    public void testWordsMap() throws Exception {
+    public void testWordsMap() {
         WordsUsageService ws = initialiseService(APPLE);
 
         ws.updateWord(APPLE, TEST);
@@ -28,7 +28,7 @@ public class WordsUsageServiceTest {
     }
 
     @Test
-    public void testWordsSummary() throws Exception {
+    public void testWordsSummary() {
         WordsUsageService ws = initialiseService(null);
 
         String result = ws.getWordsSummary();
