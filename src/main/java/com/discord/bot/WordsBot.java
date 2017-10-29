@@ -15,12 +15,11 @@ import javax.security.auth.login.LoginException;
 
 public class WordsBot extends ListenerAdapter {
 
+    private static WordsUsageService ms = new WordsUsageService();
+
     public static void main(String[] args)
             throws LoginException, RateLimitedException, InterruptedException {
-
-        WordsUsageService ms = new WordsUsageService();
-
-        ms.addWordIfMissing("apple");
+        ms.addWord("apple");
 
         JDA jda = new JDABuilder(AccountType.BOT).setToken(BotToken.TOKEN).buildBlocking();
         jda.addEventListener(new WordsBot());
@@ -31,11 +30,19 @@ public class WordsBot extends ListenerAdapter {
         if (event.getAuthor().isBot())
             return;
 
+        MessageChannel channel = event.getChannel();
         Message message = event.getMessage();
         String msg = message.getContent();
 
-        MessageChannel channel = event.getChannel();
-        channel.sendMessage(msg).queue();
+        if (msg.equals("!sum")){
+            channel.sendMessage(ms.getWordsSummary()).queue();
+        }else if(ms.containsWord(msg)){
+
+
+        }else{
+            channel.sendMessage(msg).queue();
+        }
+
     }
 
 }
