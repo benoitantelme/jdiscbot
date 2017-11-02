@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 public class ABotTest {
 
     @Test
-    public void testFromBot(){
+    public void testFromBot() {
         WordsBot bot = new WordsBot();
 
         MessageReceivedEvent event = mock(MessageReceivedEvent.class);
@@ -28,11 +28,11 @@ public class ABotTest {
     }
 
     @Test
-    public void testCreateBot(){
+    public void testCreateBot() {
         WordsBot bot = new WordsBot();
         try {
             bot.createBot();
-        }catch(Exception e){
+        } catch (Exception e) {
             assertNull(e);
         }
     }

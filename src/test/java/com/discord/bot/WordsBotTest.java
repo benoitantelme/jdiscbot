@@ -1,6 +1,6 @@
 package com.discord.bot;
 
-import com.discord.util.CommonConstants;
+import com.discord.constants.CommonConstants;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -21,7 +21,7 @@ public class WordsBotTest {
     public static final String WHATEVER = "whatever";
 
     @Test
-    public void testGetWordForAdd(){
+    public void testGetWordForAdd() {
         String emptyCommand2 = WordsBot.ADD + CommonConstants.SPACE;
         String wrongCommand = WordsBot.ADD + "a";
 
@@ -33,7 +33,7 @@ public class WordsBotTest {
     }
 
     @Test
-    public void testAddCommand(){
+    public void testAddCommand() {
         WordsBot bot = new WordsBot();
         assertTrue(bot.addCommand(WordsBot.ADD, null).contains(WordsBot.EMPTY_WORD));
         assertTrue(bot.addCommand(WordsBot.ADD + " pie", null).contains(WordsBot.HAS_BEEN_ADDED_FOR));
@@ -43,7 +43,7 @@ public class WordsBotTest {
     }
 
     @Test
-    public void testOnMessageReceived(){
+    public void testOnMessageReceived() {
         WordsBot bot = new WordsBot();
 
         //create mocks

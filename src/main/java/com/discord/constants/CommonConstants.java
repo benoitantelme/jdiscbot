@@ -1,4 +1,4 @@
-package com.discord.util;
+package com.discord.constants;
 
 public class CommonConstants {
 

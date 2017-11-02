@@ -1,6 +1,6 @@
 package com.discord.bot;
 
-import com.discord.util.CommonConstants;
+import com.discord.constants.CommonConstants;
 import com.discord.util.WordsUsageService;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
