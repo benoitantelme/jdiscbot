@@ -18,7 +18,7 @@ public class SteamBot extends ABot {
         bot.createBot();
 
         SteamService service = new SteamService();
-        JSONObject myObj =  service.getGameNews("578080");
+        JSONObject myObj =  service.getGameNews("PLAYERUNKNOWN'S BATTLEGROUNDS");
         System.out.println(myObj);
     }
 
