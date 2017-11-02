@@ -1,6 +1,6 @@
 package com.discord.bot;
 
-import com.discord.util.BotToken;
+import com.discord.util.BotConstants;
 import com.discord.util.WordsUsageService;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -27,7 +27,7 @@ public class WordsBot extends ListenerAdapter {
             throws LoginException, RateLimitedException, InterruptedException {
         ms.addWord("apple");
 
-        JDA jda = new JDABuilder(AccountType.BOT).setToken(BotToken.TOKEN).buildBlocking();
+        JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
         jda.addEventListener(new WordsBot());
     }
 
