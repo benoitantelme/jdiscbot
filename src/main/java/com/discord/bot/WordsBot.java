@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
 
-public class WordsBot extends ListenerAdapter {
+public class WordsBot extends ABOT {
     protected static final String EMPTY_STRING = "";
     public static final String WORD = "Word ";
     public static final String HAS_BEEN_ADDED_FOR = " has been added for ";
@@ -27,17 +27,16 @@ public class WordsBot extends ListenerAdapter {
             throws LoginException, RateLimitedException, InterruptedException {
         ms.addWord("apple");
 
-        JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
-        jda.addEventListener(new WordsBot());
+        WordsBot bot = new WordsBot();
+        bot.createBot();
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        User author = event.getAuthor();
-        if (author.isBot())
+        if(fromBot(event))
             return;
 
-        String authorName = author.getName();
+        String authorName = event.getAuthor().getName();
 
         MessageChannel channel = event.getChannel();
         Message message = event.getMessage();
