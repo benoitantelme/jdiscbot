@@ -1,27 +1,24 @@
 package com.discord.bot;
 
-import com.discord.util.BotConstants;
+import com.discord.util.CommonConstants;
 import com.discord.util.WordsUsageService;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
 
-public class WordsBot extends ABOT {
-    protected static final String EMPTY_STRING = "";
-    public static final String WORD = "Word ";
-    public static final String HAS_BEEN_ADDED_FOR = " has been added for ";
-    public static final String IS_ALREADY_COUNTED_FOR = " is already counted for.";
-    public static final String EMPTY_WORD = "Empty word";
+public class WordsBot extends ABot {
+    public static final String ADD = "!add";
+    protected static final String WORD = "Word ";
+    protected static final String HAS_BEEN_ADDED_FOR = " has been added for ";
+    protected static final String IS_ALREADY_COUNTED_FOR = " is already counted for.";
+    protected static final String EMPTY_WORD = "Empty word";
+    public static final String HAS_BEEN_COUNTED_FOR = " has been counted for ";
+    public static final String SUM = "!sum";
 
-    private static WordsUsageService ms = new WordsUsageService();
+    protected static WordsUsageService ms = new WordsUsageService();
 
     public static void main(String[] args)
             throws LoginException, RateLimitedException, InterruptedException {
@@ -38,17 +35,18 @@ public class WordsBot extends ABOT {
 
         String authorName = event.getAuthor().getName();
 
+
         MessageChannel channel = event.getChannel();
         Message message = event.getMessage();
         String msg = message.getContent();
 
-        if (msg.equals("!sum")){
+        if (msg.equals(SUM)){
             channel.sendMessage(ms.getWordsSummary()).queue();
-        }else if (msg.startsWith("!add")) {
+        }else if (msg.startsWith(ADD)) {
             channel.sendMessage(addCommand(msg, authorName)).queue();
         }else if(ms.containsWord(msg)){
             ms.updateWord(msg, authorName);
-            channel.sendMessage(WORD + msg + " has been counted for " + authorName).queue();
+            channel.sendMessage(WORD + msg + HAS_BEEN_COUNTED_FOR + authorName).queue();
         }else{
             channel.sendMessage(msg).queue();
         }
@@ -74,8 +72,8 @@ public class WordsBot extends ABOT {
     }
 
     protected String getWordForAdd(String message){
-        String[] splittedMessage =  message.split(" ");
-        String result = EMPTY_STRING;
+        String[] splittedMessage =  message.split(CommonConstants.SPACE);
+        String result = CommonConstants.EMPTY_STRING;
 
         if(splittedMessage.length == 2) {
             result = splittedMessage[1];

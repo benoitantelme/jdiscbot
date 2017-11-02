@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
 
-public abstract class ABOT extends ListenerAdapter {
+public abstract class ABot extends ListenerAdapter {
 
-    public boolean fromBot(MessageReceivedEvent event) {
+    protected boolean fromBot(MessageReceivedEvent event) {
         boolean result = false;
         User author = event.getAuthor();
         if (author.isBot())
