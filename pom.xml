@@ -39,6 +39,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>3.3.1_290</version>
