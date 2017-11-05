@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class SteamServiceTest {
     public static final String PLAYERUNKNOWN_S_BATTLEGROUNDS = "PLAYERUNKNOWN'S BATTLEGROUNDS";
@@ -39,5 +40,11 @@ public class SteamServiceTest {
         service.getGameNews("whateverthatgameis").get("error");
         assertEquals(SteamService.GAME_NOT_FOUND,
                 service.getGameNews("whateverthatgameis").get("error").toString());
+    }
+
+    @Test
+    public void testGetGameNews() {
+        SteamService service = new SteamService();
+        assertFalse(service.getGameNews(PLAYERUNKNOWN_S_BATTLEGROUNDS).toString().isEmpty());
     }
 }

@@ -22,7 +22,6 @@ public class SteamService {
     protected final Map<String, String> mapOfGamesNameToId = new HashMap<>();
 
     public SteamService() {
-        String result = null;
         final String URI = STEAM_API + APP_LIST_API;
 
         JSONObject appList = getJsonObjectResponse(URI);
@@ -35,7 +34,7 @@ public class SteamService {
     }
 
     public JSONObject getGameNews(String gameName) throws JSONException {
-        JSONObject result = null;
+        JSONObject result;
         String id = getGameId(gameName);
         if (id == null) {
             result = new JSONObject("{\"error\": \"" + GAME_NOT_FOUND + "\"}");
