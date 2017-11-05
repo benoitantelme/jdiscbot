@@ -1,5 +1,6 @@
 package com.discord.util;
 
+import com.discord.constants.CommonConstants;
 import org.junit.Test;
 
 import java.util.Map;
@@ -47,11 +48,20 @@ public class WordsUsageServiceTest {
     @Test
     public void testContainsWord() {
         WordsUsageService ws = initialiseService(null);
-
         assertFalse(ws.containsWord(APPLE));
 
         ws.addWord(APPLE);
         assertTrue(ws.containsWord(APPLE));
+
+        assertTrue(ws.containsWord("a apple"));
+        assertTrue(ws.containsWord("apple a"));
+
+        assertFalse(ws.containsWord("applea"));
+        assertFalse(ws.containsWord("aapple"));
+
+        assertFalse(ws.containsWord(CommonConstants.EMPTY_STRING));
+        assertFalse(ws.containsWord(CommonConstants.SPACE));
+        assertFalse(ws.containsWord(null));
     }
 
     @Test

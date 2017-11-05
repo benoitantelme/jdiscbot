@@ -1,5 +1,8 @@
 package com.discord.util;
 
+import com.discord.constants.CommonConstants;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +14,11 @@ public class WordsUsageService {
     protected final Map<String, Map<String, Integer>> wordsUsage = new HashMap<>();
 
     public boolean containsWord(String word) {
-        return wordsUsage.containsKey(word);
+        boolean result = false;
+        if(word != null)
+            result = Arrays.stream(word.split(CommonConstants.SPACE)).anyMatch(str -> wordsUsage.containsKey(str));
+
+        return result;
     }
 
     public void updateWord(String word, String author) {
