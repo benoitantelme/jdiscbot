@@ -35,10 +35,8 @@ public class WordsBot extends ABot {
 
         String authorName = event.getAuthor().getName();
 
-
         MessageChannel channel = event.getChannel();
-        Message message = event.getMessage();
-        String msg = message.getContent();
+        String msg = event.getMessage().getContent();
 
         if (msg.equals(SUM)){
             channel.sendMessage(ms.getWordsSummary()).queue();
@@ -54,8 +52,8 @@ public class WordsBot extends ABot {
     }
 
     protected String addCommand(String msg, String authorName){
-        String word = getWordForAdd(msg);
-        String outputMessage = null;
+        String word = getArgForCmd(msg);
+        String outputMessage;
 
         if(!word.isEmpty()){
             if(ms.containsWord(word)){
@@ -69,17 +67,6 @@ public class WordsBot extends ABot {
         }
 
         return  outputMessage;
-    }
-
-    protected String getWordForAdd(String message){
-        String[] splittedMessage =  message.split(CommonConstants.SPACE);
-        String result = CommonConstants.EMPTY_STRING;
-
-        if(splittedMessage.length == 2) {
-            result = splittedMessage[1];
-        }
-
-        return result;
     }
 
 }

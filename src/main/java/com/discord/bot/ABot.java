@@ -1,6 +1,7 @@
 package com.discord.bot;
 
 import com.discord.constants.BotConstants;
+import com.discord.constants.CommonConstants;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -25,5 +26,16 @@ public abstract class ABot extends ListenerAdapter {
     protected void createBot() throws LoginException, RateLimitedException, InterruptedException {
         JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
         jda.addEventListener(new WordsBot());
+    }
+
+    protected String getArgForCmd(String message){
+        String[] splittedMessage =  message.split(CommonConstants.SPACE);
+        String result = CommonConstants.EMPTY_STRING;
+
+        if(splittedMessage.length == 2) {
+            result = splittedMessage[1];
+        }
+
+        return result;
     }
 }

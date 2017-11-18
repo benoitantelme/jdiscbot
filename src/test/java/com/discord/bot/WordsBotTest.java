@@ -26,10 +26,10 @@ public class WordsBotTest {
         String wrongCommand = WordsBot.ADD + "a";
 
         WordsBot bot = new WordsBot();
-        assertEquals(APPLE, bot.getWordForAdd(goodCommand));
-        assertEquals(CommonConstants.EMPTY_STRING, bot.getWordForAdd(WordsBot.ADD));
-        assertEquals(CommonConstants.EMPTY_STRING, bot.getWordForAdd(emptyCommand2));
-        assertEquals(CommonConstants.EMPTY_STRING, bot.getWordForAdd(wrongCommand));
+        assertEquals(APPLE, bot.getArgForCmd(goodCommand));
+        assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(WordsBot.ADD));
+        assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(emptyCommand2));
+        assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(wrongCommand));
     }
 
     @Test
