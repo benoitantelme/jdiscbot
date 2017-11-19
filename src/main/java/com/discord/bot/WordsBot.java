@@ -18,11 +18,10 @@ public class WordsBot extends ABot {
     public static final String HAS_BEEN_COUNTED_FOR = " has been counted for ";
     public static final String SUM = "!sum";
 
-    protected static WordsUsageService ms = new WordsUsageService();
+    protected WordsUsageService ms = new WordsUsageService();
 
     public static void main(String[] args)
             throws LoginException, RateLimitedException, InterruptedException {
-        ms.addWord("apple");
 
         WordsBot bot = new WordsBot();
         bot.createBot();
