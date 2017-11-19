@@ -24,7 +24,7 @@ public class WordsBot extends ABot {
             throws LoginException, RateLimitedException, InterruptedException {
 
         WordsBot bot = new WordsBot();
-        bot.createBot();
+        bot.createBot(ABot.WORDS);
     }
 
     @Override

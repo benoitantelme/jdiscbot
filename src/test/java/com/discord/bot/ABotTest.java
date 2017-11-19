@@ -31,7 +31,7 @@ public class ABotTest {
     public void testCreateBot() {
         WordsBot bot = new WordsBot();
         try {
-            bot.createBot();
+            bot.createBot(ABot.WORDS);
         } catch (Exception e) {
             assertNull(e);
         }

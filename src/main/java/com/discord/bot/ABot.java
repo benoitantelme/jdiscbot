@@ -11,8 +11,14 @@ import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public abstract class ABot extends ListenerAdapter {
+
+    public static final String WORDS = "Words";
+    public static final String STEAM = "Steam";
 
     protected boolean fromBot(MessageReceivedEvent event) {
         boolean result = false;
@@ -23,9 +29,16 @@ public abstract class ABot extends ListenerAdapter {
         return result;
     }
 
-    protected void createBot() throws LoginException, RateLimitedException, InterruptedException {
+    protected void createBot(String botType) throws LoginException, RateLimitedException, InterruptedException {
         JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
-        jda.addEventListener(new WordsBot());
+
+        Supplier<ABot> sup = map.get(botType);
+        if(sup != null){
+            jda.addEventListener(sup.get());
+        }else{
+            throw new RuntimeException("Unknown type of bot: " + botType);
+        }
+
     }
 
     protected String getArgForCmd(String message){
@@ -37,5 +50,13 @@ public abstract class ABot extends ListenerAdapter {
         }
 
         return result;
+    }
+
+
+    final static Map<String, Supplier<ABot>> map = new HashMap<>();
+
+    static {
+        map.put(WORDS, WordsBot::new);
+        map.put(STEAM, SteamBot::new);
     }
 }
