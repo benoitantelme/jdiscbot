@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 public class WordsBotTest {
 
     public static final String APPLE = "apple";
-    private static final String goodCommand = WordsBot.ADD + CommonConstants.SPACE + APPLE;
+    private static final String GOOD_COMMAND = WordsBot.ADD + CommonConstants.SPACE + APPLE;
     public static final String AUTHOR = "author";
     public static final String WHATEVER = "whatever";
 
@@ -26,7 +26,7 @@ public class WordsBotTest {
         String wrongCommand = WordsBot.ADD + "a";
 
         WordsBot bot = new WordsBot();
-        assertEquals(APPLE, bot.getArgForCmd(goodCommand));
+        assertEquals(APPLE, bot.getArgForCmd(GOOD_COMMAND));
         assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(WordsBot.ADD));
         assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(emptyCommand2));
         assertEquals(CommonConstants.EMPTY_STRING, bot.getArgForCmd(wrongCommand));
@@ -38,8 +38,8 @@ public class WordsBotTest {
         assertTrue(bot.addCommand(WordsBot.ADD, null).contains(WordsBot.EMPTY_WORD));
         assertTrue(bot.addCommand(WordsBot.ADD + " pie", null).contains(WordsBot.HAS_BEEN_ADDED_FOR));
 
-        bot.addCommand(goodCommand, null);
-        assertTrue(bot.addCommand(goodCommand, null).contains(WordsBot.IS_ALREADY_COUNTED_FOR));
+        bot.addCommand(GOOD_COMMAND, null);
+        assertTrue(bot.addCommand(GOOD_COMMAND, null).contains(WordsBot.IS_ALREADY_COUNTED_FOR));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class WordsBotTest {
         verify(channel, times(1)).sendMessage(bot.ms.getWordsSummary());
 
         //test add command
-        when(message.getContent()).thenReturn(goodCommand);
+        when(message.getContent()).thenReturn(GOOD_COMMAND);
         when(channel.sendMessage(anyString())).thenReturn(restAction);
         bot.onMessageReceived(event);
         verify(channel, times(1)).sendMessage(WordsBot.WORD + APPLE + WordsBot.HAS_BEEN_ADDED_FOR + AUTHOR);

@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import javax.security.auth.login.LoginException;
 
 public class SteamBot extends ABot {
-
     public static final String NEWS = "!news";
     public static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
 
@@ -42,10 +41,13 @@ public class SteamBot extends ABot {
         String word = getArgForCmd(msg);
         String outputMessage;
 
-        if(!word.isEmpty()){
-            JSONObject myObj = service.getGameNews(word);
-            outputMessage = myObj.toString();
-        }else{
+        if (!word.isEmpty()) {
+            String news = service.getGameNews(word).toString();
+
+            if (news.length() > 1997)
+                news = news.substring(0, 1998);
+            outputMessage = news;
+        } else {
             outputMessage = NO_GAME_SPECIFIED_FOR_NEWS;
         }
 

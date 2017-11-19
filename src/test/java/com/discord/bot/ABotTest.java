@@ -35,5 +35,7 @@ public class ABotTest {
         } catch (Exception e) {
             assertNull(e);
         }
+
+        assertTrue(bot instanceof WordsBot);
     }
 }

@@ -31,7 +31,6 @@ public class SteamServiceTest {
     public void testGetGameNewsError() {
         SteamService service = new SteamService();
         service.getGameNews(PLAYERUNKNOWN_S_BATTLEGROUNDS).get("error");
-
     }
 
     @Test()

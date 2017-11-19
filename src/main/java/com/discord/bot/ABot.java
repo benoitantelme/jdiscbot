@@ -33,19 +33,19 @@ public abstract class ABot extends ListenerAdapter {
         JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
 
         Supplier<ABot> sup = map.get(botType);
-        if(sup != null){
+        if (sup != null) {
             jda.addEventListener(sup.get());
-        }else{
+        } else {
             throw new RuntimeException("Unknown type of bot: " + botType);
         }
 
     }
 
-    protected String getArgForCmd(String message){
-        String[] splittedMessage =  message.split(CommonConstants.SPACE);
+    protected String getArgForCmd(String message) {
+        String[] splittedMessage = message.split(CommonConstants.SPACE, 2);
         String result = CommonConstants.EMPTY_STRING;
 
-        if(splittedMessage.length == 2) {
+        if (splittedMessage.length == 2) {
             result = splittedMessage[1];
         }
 
