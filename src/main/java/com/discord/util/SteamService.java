@@ -17,7 +17,12 @@ public class SteamService {
     private static final String NEWS_FOR_APP_API_1 = "ISteamNews/GetNewsForApp/v0002/?appid=";
     private static final String NEWS_FOR_APP_API_2 = "&count=3&maxlength=300&format=json";
     private static final String APP_LIST_API = "ISteamApps/GetAppList/v0001/";
-    public static final String GAME_NOT_FOUND = "Game not found";
+    protected static final String GAME_NOT_FOUND = "Game not found";
+    private static final String TITLE = "title";
+    private static final String CONTENTS = "contents";
+    private static final String SLASHN = "\n";
+    private static final String NAME = "name";
+    private static final String APPID = "appid";
 
     protected final Map<String, String> mapOfGamesNameToId = new HashMap<>();
 
@@ -29,11 +34,11 @@ public class SteamService {
 
         array.forEach(item -> {
             JSONObject obj = (JSONObject) item;
-            mapOfGamesNameToId.put(obj.get("name").toString(), obj.get("appid").toString());
+            mapOfGamesNameToId.put(obj.get(NAME).toString(), obj.get(APPID).toString());
         });
     }
 
-    public JSONObject getGameNews(String gameName) throws JSONException {
+    public JSONObject getGameNewsJson(String gameName) throws JSONException {
         JSONObject result;
         String id = getGameId(gameName);
         if (id == null) {
@@ -43,6 +48,19 @@ public class SteamService {
             result = getJsonObjectResponse(URI);
         }
         return result;
+    }
+
+    public String parseGameNews(JSONObject gameNewsJson){
+        StringBuilder result = new StringBuilder();
+
+        JSONArray newsArray = gameNewsJson.getJSONObject("appnews").getJSONArray("newsitems");
+
+        newsArray.forEach(item -> {
+            JSONObject news = (JSONObject) item;
+            result.append(news.get(TITLE)).append(SLASHN).append(news.get(CONTENTS)).append(SLASHN).append(SLASHN);
+        });
+
+        return result.toString();
     }
 
     protected String getGameId(String gameName) {

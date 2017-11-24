@@ -11,6 +11,7 @@ import javax.security.auth.login.LoginException;
 public class SteamBot extends ABot {
     public static final String NEWS = "!news";
     public static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
+    public static final String ERROR = "error";
 
     private SteamService service = new SteamService();
 
@@ -20,7 +21,7 @@ public class SteamBot extends ABot {
         bot.createBot(ABot.STEAM);
 
         SteamService service = new SteamService();
-        JSONObject myObj = service.getGameNews("PLAYERUNKNOWN'S BATTLEGROUNDS");
+        JSONObject myObj = service.getGameNewsJson("PLAYERUNKNOWN'S BATTLEGROUNDS");
         System.out.println(myObj);
     }
 
@@ -42,8 +43,10 @@ public class SteamBot extends ABot {
         String outputMessage;
 
         if (!word.isEmpty()) {
-            String news = service.getGameNews(word).toString();
+            JSONObject jsonNews = service.getGameNewsJson(word);
+            String news = jsonNews.has(ERROR) ? jsonNews.get(ERROR).toString() : service.parseGameNews(jsonNews);
 
+            // output message max length
             if (news.length() > 1997)
                 news = news.substring(0, 1998);
             outputMessage = news;

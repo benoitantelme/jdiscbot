@@ -19,7 +19,7 @@ public class SteamBotTest {
     private static final String BAD_CMD = SteamBot.NEWS + CommonConstants.SPACE + "aaa";
     private static final String EMPTY_CMD = SteamBot.NEWS + CommonConstants.SPACE;
     private static final String EMPTY_CMD_2 = SteamBot.NEWS;
-    private static final String errorGameNotFound = "{\"error\":\"Game not found\"}";
+    private static final String GAME_NOT_FOUND = "Game not found";
 
     @Test
     public void testOnMessageReceived() {
@@ -49,7 +49,7 @@ public class SteamBotTest {
 
         when(message.getContent()).thenReturn(BAD_CMD);
         bot.onMessageReceived(event);
-        verify(channel, times(1)).sendMessage(errorGameNotFound);
+        verify(channel, times(1)).sendMessage(GAME_NOT_FOUND);
 
         when(message.getContent()).thenReturn(EMPTY_CMD);
         bot.onMessageReceived(event);

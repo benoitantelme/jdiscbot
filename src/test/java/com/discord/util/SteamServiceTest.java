@@ -30,20 +30,27 @@ public class SteamServiceTest {
     @Test(expected = JSONException.class)
     public void testGetGameNewsError() {
         SteamService service = new SteamService();
-        service.getGameNews(PLAYERUNKNOWN_S_BATTLEGROUNDS).get("error");
+        service.getGameNewsJson(PLAYERUNKNOWN_S_BATTLEGROUNDS).get("error");
     }
 
     @Test()
     public void testGetGameNewsOk() {
         SteamService service = new SteamService();
-        service.getGameNews("whateverthatgameis").get("error");
+        service.getGameNewsJson("whateverthatgameis").get("error");
         assertEquals(SteamService.GAME_NOT_FOUND,
-                service.getGameNews("whateverthatgameis").get("error").toString());
+                service.getGameNewsJson("whateverthatgameis").get("error").toString());
     }
 
     @Test
     public void testGetGameNews() {
         SteamService service = new SteamService();
-        assertFalse(service.getGameNews(PLAYERUNKNOWN_S_BATTLEGROUNDS).toString().isEmpty());
+        assertFalse(service.getGameNewsJson(PLAYERUNKNOWN_S_BATTLEGROUNDS).toString().isEmpty());
     }
+
+    @Test
+    public void testParseGameNews() {
+        SteamService service = new SteamService();
+        assertFalse(service.parseGameNews(service.getGameNewsJson(PLAYERUNKNOWN_S_BATTLEGROUNDS)).isEmpty());
+    }
+
 }
