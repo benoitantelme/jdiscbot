@@ -20,6 +20,13 @@ public abstract class ABot extends ListenerAdapter {
     public static final String WORDS = "Words";
     public static final String STEAM = "Steam";
 
+    private final static Map<String, Supplier<ABot>> botsMap = new HashMap<>();
+
+    static {
+        botsMap.put(WORDS, WordsBot::new);
+        botsMap.put(STEAM, SteamBot::new);
+    }
+
     protected boolean fromBot(MessageReceivedEvent event) {
         boolean result = false;
         User author = event.getAuthor();
@@ -32,7 +39,7 @@ public abstract class ABot extends ListenerAdapter {
     protected void createBot(String botType) throws LoginException, RateLimitedException, InterruptedException {
         JDA jda = new JDABuilder(AccountType.BOT).setToken(BotConstants.TOKEN).buildBlocking();
 
-        Supplier<ABot> sup = map.get(botType);
+        Supplier<ABot> sup = botsMap.get(botType);
         if (sup != null) {
             jda.addEventListener(sup.get());
         } else {
@@ -52,11 +59,4 @@ public abstract class ABot extends ListenerAdapter {
         return result;
     }
 
-
-    final static Map<String, Supplier<ABot>> map = new HashMap<>();
-
-    static {
-        map.put(WORDS, WordsBot::new);
-        map.put(STEAM, SteamBot::new);
-    }
 }
