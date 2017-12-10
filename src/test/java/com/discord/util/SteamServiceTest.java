@@ -1,44 +1,62 @@
 package com.discord.util;
 
 import com.discord.constants.CommonConstants;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class SteamServiceTest {
     private static final String EXPECTED = "578080";
+    private static final String PLAYER_INFO = "{\n" +
+            "\"response\":{\n" +
+            "\"players\":[{\n" +
+            "\"personastate\":0,\n" +
+            "\"profileurl\":\"http://steamcommunity.com/id/robinwalker/\",\n" +
+            "\"profilestate\":1,\n" +
+            "\"primaryclanid\":\"103582791429521412\",\n" +
+            "\"avatarfull\":\"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4_full.jpg\",\n" +
+            "\"avatarmedium\":\"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4_medium.jpg\",\n" +
+            "\"locstatecode\":\"WA\",\n" +
+            "\"avatar\":\"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4.jpg\",\n" +
+            "\"personaname\":\"Robin\",\n" +
+            "\"personastateflags\":0,\n" +
+            "\"realname\":\"Robin Walker\",\n" +
+            "\"steamid\":\"76561197960435530\",\n" +
+            "\"timecreated\":1063407589,\n" +
+            "\"lastlogoff\":1512894857,\n" +
+            "\"loccountrycode\":\"US\",\n" +
+            "\"communityvisibilitystate\":3,\n" +
+            "\"loccityid\":3961}]}}";
+
+    private final SteamService service = new SteamService();
 
     @Test
     public void testConstructor() {
-        SteamService service = new SteamService();
         assertEquals(EXPECTED, service.mapOfGamesNameToId.get(CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS));
     }
 
     @Test
     public void testGetGameId() {
-        SteamService service = new SteamService();
         assertEquals(EXPECTED, service.getGameId(CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS));
     }
 
     @Test()
     public void testGetGameNotFoundNews() {
-        SteamService service = new SteamService();
         assertEquals(SteamService.GAME_NOT_FOUND,
                 service.getGameNews("whateverthatgameis"));
     }
 
     @Test
     public void testGetGameNewsOk() {
-        SteamService service = new SteamService();
         assertFalse(service.getGameNews(CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS).toString().isEmpty());
     }
 
     @Test
     public void testParseGameNews() {
-        SteamService service = new SteamService();
-
         String gameNewsResult = "{\n" +
                 "\"appnews\":{\n" +
                 "\"newsitems\":[{\n" +
@@ -67,6 +85,31 @@ public class SteamServiceTest {
                 "\"appid\":578080,\"count\":312}}\n";
         JSONObject jsonObj = new JSONObject(gameNewsResult);
         assertFalse(service.parseGameNews(jsonObj).isEmpty());
+    }
+
+    @Test
+    public void testGetPlayerInfoOk() {
+        assertFalse(service.getPlayerInfo("76561197960435530").toString().isEmpty());
+    }
+
+    @Test
+    public void testGetPlayerInfoKo() {
+        assertEquals(SteamService.PLAYER_NOT_FOUND, service.getPlayerInfo("notAnId"));
+    }
+
+    @Test
+    public void testParsePlayerInfo() {
+        SteamService service = new SteamService();
+
+        JSONObject jsonObj = new JSONObject(PLAYER_INFO);
+        assertFalse(service.parsePlayerInfo(jsonObj).isEmpty());
+    }
+
+    @Test
+    public void testGetPlayers() {
+        JSONObject jsonObj = new JSONObject(PLAYER_INFO);
+        JSONArray array = service.getPlayersArray(jsonObj);
+        assertTrue(array != null && array.length() == 1);
     }
 
 }
