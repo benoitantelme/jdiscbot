@@ -2,18 +2,13 @@ package com.discord.util;
 
 import com.discord.constants.CommonConstants;
 import org.json.JSONObject;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class SteamServiceTest {
     private static final String EXPECTED = "578080";
-
-    @Rule
-    public ExpectedException exceptions = ExpectedException.none();
 
     @Test
     public void testConstructor() {
