@@ -1,5 +1,6 @@
 package com.discord.util;
 
+import com.discord.constants.CommonConstants;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -38,19 +39,20 @@ public class SteamService {
         });
     }
 
-    public JSONObject getGameNewsJson(String gameName) throws JSONException {
-        JSONObject result;
+    public String getGameNews(String gameName) throws JSONException {
+        JSONObject jsonResult;
         String id = getGameId(gameName);
         if (id == null) {
-            result = new JSONObject("{\"error\": \"" + GAME_NOT_FOUND + "\"}");
+            jsonResult = new JSONObject("{\"error\": \"" + GAME_NOT_FOUND + "\"}");
         } else {
             final String URI = STEAM_API + NEWS_FOR_APP_API_1 + id + NEWS_FOR_APP_API_2;
-            result = getJsonObjectResponse(URI);
+            jsonResult = getJsonObjectResponse(URI);
         }
-        return result;
+
+        return jsonResult.has(CommonConstants.ERROR) ? jsonResult.get(CommonConstants.ERROR).toString() : parseGameNews(jsonResult);
     }
 
-    public String parseGameNews(JSONObject gameNewsJson){
+    protected String parseGameNews(JSONObject gameNewsJson) {
         StringBuilder result = new StringBuilder();
 
         JSONArray newsArray = gameNewsJson.getJSONObject("appnews").getJSONArray("newsitems");

@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class SteamBotTest {
 
-    private static final String GOOD_CMD = SteamBot.NEWS + CommonConstants.SPACE + SteamServiceTest.PLAYERUNKNOWN_S_BATTLEGROUNDS;
+    private static final String GOOD_CMD = SteamBot.NEWS + CommonConstants.SPACE + CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS;
     private static final String BAD_CMD = SteamBot.NEWS + CommonConstants.SPACE + "aaa";
     private static final String EMPTY_CMD = SteamBot.NEWS + CommonConstants.SPACE;
     private static final String EMPTY_CMD_2 = SteamBot.NEWS;

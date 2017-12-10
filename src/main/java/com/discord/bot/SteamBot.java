@@ -4,14 +4,12 @@ import com.discord.util.SteamService;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import org.json.JSONObject;
 
 import javax.security.auth.login.LoginException;
 
 public class SteamBot extends ABot {
-    public static final String NEWS = "!news";
-    public static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
-    public static final String ERROR = "error";
+    protected static final String NEWS = "!news";
+    protected static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
 
     private SteamService service = new SteamService();
 
@@ -21,8 +19,6 @@ public class SteamBot extends ABot {
         bot.createBot(ABot.STEAM);
 
         SteamService service = new SteamService();
-        JSONObject myObj = service.getGameNewsJson("PLAYERUNKNOWN'S BATTLEGROUNDS");
-        System.out.println(myObj);
     }
 
     @Override
@@ -38,13 +34,12 @@ public class SteamBot extends ABot {
         }
     }
 
-    protected String newsCommand(String msg) {
+    private String newsCommand(String msg) {
         String word = getArgForCmd(msg);
         String outputMessage;
 
         if (!word.isEmpty()) {
-            JSONObject jsonNews = service.getGameNewsJson(word);
-            String news = jsonNews.has(ERROR) ? jsonNews.get(ERROR).toString() : service.parseGameNews(jsonNews);
+            String news = service.getGameNews(word);
 
             // output message max length
             if (news.length() > 1997)
