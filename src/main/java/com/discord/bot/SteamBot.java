@@ -11,7 +11,7 @@ public class SteamBot extends ABot {
     protected static final String NEWS = "!news";
     protected static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
 
-    private SteamService service = new SteamService();
+    private final SteamService service = new SteamService();
 
     public static void main(String[] args)
             throws LoginException, RateLimitedException, InterruptedException {
@@ -19,6 +19,8 @@ public class SteamBot extends ABot {
         bot.createBot(ABot.STEAM);
 
         SteamService service = new SteamService();
+        String info = service.getPlayerInfo("76561197960435530");
+        System.out.println(info);
     }
 
     @Override

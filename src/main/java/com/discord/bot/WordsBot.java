@@ -1,8 +1,6 @@
 package com.discord.bot;
 
-import com.discord.constants.CommonConstants;
 import com.discord.util.WordsUsageService;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -18,7 +16,7 @@ public class WordsBot extends ABot {
     public static final String HAS_BEEN_COUNTED_FOR = " has been counted for ";
     public static final String SUM = "!sum";
 
-    protected WordsUsageService ms = new WordsUsageService();
+    protected final WordsUsageService ms = new WordsUsageService();
 
     public static void main(String[] args)
             throws LoginException, RateLimitedException, InterruptedException {

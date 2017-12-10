@@ -15,10 +15,10 @@ import static org.mockito.Mockito.*;
 
 public class WordsBotTest {
 
-    public static final String APPLE = "apple";
+    private static final String APPLE = "apple";
     private static final String GOOD_COMMAND = WordsBot.ADD + CommonConstants.SPACE + APPLE;
-    public static final String AUTHOR = "author";
-    public static final String WHATEVER = "whatever";
+    private static final String AUTHOR = "author";
+    private static final String WHATEVER = "whatever";
 
     @Test
     public void testGetWordForAdd() {

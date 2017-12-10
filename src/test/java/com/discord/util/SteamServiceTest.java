@@ -52,7 +52,7 @@ public class SteamServiceTest {
 
     @Test
     public void testGetGameNewsOk() {
-        assertFalse(service.getGameNews(CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS).toString().isEmpty());
+        assertFalse(service.getGameNews(CommonConstants.PLAYERUNKNOWN_S_BATTLEGROUNDS).isEmpty());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SteamServiceTest {
 
     @Test
     public void testGetPlayerInfoOk() {
-        assertFalse(service.getPlayerInfo("76561197960435530").toString().isEmpty());
+        assertFalse(service.getPlayerInfo("76561197960435530").isEmpty());
     }
 
     @Test

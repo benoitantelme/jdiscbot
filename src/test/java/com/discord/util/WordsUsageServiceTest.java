@@ -8,9 +8,9 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class WordsUsageServiceTest {
-    public static final String APPLE = "apple";
-    public static final String TEST = "test";
-    public static final String TEST_2 = "test2";
+    private static final String APPLE = "apple";
+    private static final String TEST = "test";
+    private static final String TEST_2 = "test2";
 
     @Test
     public void testWordsMap() {

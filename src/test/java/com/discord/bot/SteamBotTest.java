@@ -1,7 +1,6 @@
 package com.discord.bot;
 
 import com.discord.constants.CommonConstants;
-import com.discord.util.SteamServiceTest;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -10,7 +9,6 @@ import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.ChannelAction;
 import org.junit.Test;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class SteamBotTest {

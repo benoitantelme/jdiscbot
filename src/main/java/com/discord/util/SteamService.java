@@ -113,6 +113,7 @@ public class SteamService {
     }
 
     private JSONObject getJsonObjectResponse(String uri) {
+        JSONObject result;
         HttpResponse<JsonNode> response = null;
 
         try {
@@ -121,7 +122,13 @@ public class SteamService {
             e.printStackTrace();
         }
 
-        return response.getBody().getObject();
+        if(response != null && response.getBody() != null){
+            result = response.getBody().getObject();
+        }else{
+            result = new JSONObject();
+        }
+
+        return result;
     }
 
 }

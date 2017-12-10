@@ -16,9 +16,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class ABot extends ListenerAdapter {
-
-    public static final String WORDS = "Words";
-    public static final String STEAM = "Steam";
+    protected static final String WORDS = "Words";
+    protected static final String STEAM = "Steam";
 
     private final static Map<String, Supplier<ABot>> botsMap = new HashMap<>();
 
