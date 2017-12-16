@@ -11,8 +11,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Stream.of;
+import static java.util.stream.Collectors.toCollection;
 
 public class SteamService {
 
@@ -23,19 +28,23 @@ public class SteamService {
     private static final String PLAYER_SUMMARY_API_1 = "ISteamUser/GetPlayerSummaries/v0002/?key=";
     private static final String PLAYER_SUMMARY_API_2 = "&steamids=";
 
-    protected static final String GAME_NOT_FOUND = "Game not found";
-    protected static final String PLAYER_NOT_FOUND = "Player not found";
     private static final String TITLE = "title";
     private static final String CONTENTS = "contents";
     private static final String SLASHN = "\n";
     private static final String NAME = "name";
     private static final String APPID = "appid";
+    protected static final String GAME_NOT_FOUND = "Game not found";
+    protected static final String PLAYER_NOT_FOUND = "Player not found";
+
+    private final List<String> playerInfoList = of("profileurl", "realname", "loccountrycode", "avatar")
+            .collect(toCollection(ArrayList::new));
 
     protected final Map<String, String> mapOfGamesNameToId = new HashMap<>();
 
     public SteamService() {
         final String URI = STEAM_API + APP_LIST_API;
 
+        // initialize applications list
         JSONObject appList = getJsonObjectResponse(URI);
         JSONArray array = appList.getJSONObject("applist").getJSONObject("apps").getJSONArray("app");
 
@@ -90,10 +99,12 @@ public class SteamService {
         if (playerInfoArray != null && playerInfoArray.length() > 0) {
             playerInfoArray.forEach(item -> {
                 JSONObject news = (JSONObject) item;
-                result.append(news.get("profileurl")).append(SLASHN).append(news.get("realname")).
-                        append(SLASHN).append(news.get("loccountrycode")).append(SLASHN).append(news.get("avatar")).append(SLASHN);
 
-                // get time of creation if present
+                playerInfoList.forEach(info -> {
+                    if (news.has(info))
+                        result.append(news.get(info)).append(SLASHN);
+                });
+
                 Object timeOfCreation = news.get("timecreated");
                 if (timeOfCreation != null) {
                     result.append(Instant.ofEpochSecond(Long.valueOf(timeOfCreation.toString()))).append(SLASHN);
@@ -122,9 +133,9 @@ public class SteamService {
             e.printStackTrace();
         }
 
-        if(response != null && response.getBody() != null){
+        if (response != null && response.getBody() != null) {
             result = response.getBody().getObject();
-        }else{
+        } else {
             result = new JSONObject();
         }
 
