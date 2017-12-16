@@ -1,5 +1,6 @@
 package com.discord.util;
 
+import com.discord.bot.steam.SteamJsonArrayPath;
 import com.discord.constants.BotConstants;
 import com.discord.constants.CommonConstants;
 import com.mashape.unirest.http.HttpResponse;
@@ -39,6 +40,14 @@ public class SteamService {
     private final List<String> playerInfoList = of("profileurl", "realname", "loccountrycode", "avatar")
             .collect(toCollection(ArrayList::new));
 
+    private final SteamJsonArrayPath appPath = new SteamJsonArrayPath(of("applist", "apps")
+            .collect(toCollection(ArrayList::new)), "app");
+    private final SteamJsonArrayPath newsArrayPath = new SteamJsonArrayPath(of("appnews")
+            .collect(toCollection(ArrayList::new)), "newsitems");
+    private final SteamJsonArrayPath playersInfoPath = new SteamJsonArrayPath(of("response")
+            .collect(toCollection(ArrayList::new)), "players");
+
+
     protected final Map<String, String> mapOfGamesNameToId = new HashMap<>();
 
     public SteamService() {
@@ -46,7 +55,7 @@ public class SteamService {
 
         // initialize applications list
         JSONObject appList = getJsonObjectResponse(URI);
-        JSONArray array = appList.getJSONObject("applist").getJSONObject("apps").getJSONArray("app");
+        JSONArray array = appPath.getArray(appList);
 
         array.forEach(item -> {
             JSONObject obj = (JSONObject) item;
@@ -70,7 +79,7 @@ public class SteamService {
     protected String parseGameNews(JSONObject gameNewsJson) {
         StringBuilder result = new StringBuilder();
 
-        JSONArray newsArray = gameNewsJson.getJSONObject("appnews").getJSONArray("newsitems");
+        JSONArray newsArray = newsArrayPath.getArray(gameNewsJson);
 
         newsArray.forEach(item -> {
             JSONObject news = (JSONObject) item;
@@ -120,7 +129,7 @@ public class SteamService {
     }
 
     protected JSONArray getPlayersArray(JSONObject playerInfoResponse) {
-        return playerInfoResponse.getJSONObject("response").getJSONArray("players");
+        return playersInfoPath.getArray(playerInfoResponse);
     }
 
     private JSONObject getJsonObjectResponse(String uri) {
