@@ -22,7 +22,7 @@ public class SteamJsonArrayPath {
 
         for (String key : jsonObjectsKeys) {
             if (nextNode.has(key)) {
-                nextNode = object.getJSONObject(key);
+                nextNode = nextNode.getJSONObject(key);
             } else {
                 throw new JSONException("Can not reach node " + key);
             }

@@ -12,27 +12,26 @@ import static org.junit.Assert.assertEquals;
 
 public class SteamJsonArrayPathTest {
 
-    private final String exampleString = "{ \n" +
-            "    \"stuff\": {\n" +
-            "        \"onetype\": [\n" +
-            "            {\"id\":1,\"name\":\"John Doe\"},\n" +
-            "            {\"id\":2,\"name\":\"Don Joeh\"}\n" +
-            "        ],\n" +
-            "        \"othertype\": {\"id\":2,\"company\":\"ACME\"}\n" +
-            "    }, \n" +
-            "    \"otherstuff\": {\n" +
-            "        \"thing\": [[1,42],[2,2]]\n" +
-            "     }\n" +
-            "}";
+    private final String exampleString = "{\"menu\": {\n" +
+            "  \"id\": \"file\",\n" +
+            "  \"value\": \"File\",\n" +
+            "  \"popup\": {\n" +
+            "    \"menuitem\": [\n" +
+            "      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"},\n" +
+            "      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"},\n" +
+            "      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}\n" +
+            "    ]\n" +
+            "  }\n" +
+            "}}";
 
     private final JSONObject jsonObj = new JSONObject(exampleString);
 
     @Test
     public void testGetArrayOk() throws Exception {
-        SteamJsonArrayPath path = new SteamJsonArrayPath(of("stuff")
-                .collect(toCollection(ArrayList::new)), "onetype");
+        SteamJsonArrayPath path = new SteamJsonArrayPath(of("menu", "popup")
+                .collect(toCollection(ArrayList::new)), "menuitem");
 
-        assertEquals(2, path.getArray(jsonObj).length());
+        assertEquals(3, path.getArray(jsonObj).length());
     }
 
     @Test(expected = JSONException.class)
