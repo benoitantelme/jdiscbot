@@ -1,5 +1,6 @@
-package com.discord.bot;
+package com.discord.bot.steam;
 
+import com.discord.bot.ABot;
 import com.discord.util.SteamService;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

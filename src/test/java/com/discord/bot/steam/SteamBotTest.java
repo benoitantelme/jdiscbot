@@ -1,5 +1,6 @@
-package com.discord.bot;
+package com.discord.bot.steam;
 
+import com.discord.bot.steam.SteamBot;
 import com.discord.constants.CommonConstants;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;

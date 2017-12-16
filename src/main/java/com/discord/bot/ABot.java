@@ -1,5 +1,6 @@
 package com.discord.bot;
 
+import com.discord.bot.steam.SteamBot;
 import com.discord.constants.BotConstants;
 import com.discord.constants.CommonConstants;
 import net.dv8tion.jda.core.AccountType;
