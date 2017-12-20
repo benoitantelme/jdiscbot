@@ -10,19 +10,11 @@ import javax.security.auth.login.LoginException;
 
 public class SteamBot extends ABot {
     protected static final String NEWS = "!news";
+    protected static final String PLAYER = "!player";
     protected static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
+    protected static final String NO_PLAYER_SPECIFIED_FOR_INFO = "No player id specified for info.";
 
     private final SteamService service = new SteamService();
-
-    public static void main(String[] args)
-            throws LoginException, RateLimitedException, InterruptedException {
-        SteamBot bot = new SteamBot();
-        bot.createBot(ABot.STEAM);
-
-        SteamService service = new SteamService();
-        String info = service.getPlayerInfo("76561197960435530");
-        System.out.println(info);
-    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -32,9 +24,19 @@ public class SteamBot extends ABot {
         MessageChannel channel = event.getChannel();
         String msg = event.getMessage().getContent();
 
+        String result = null;
         if (msg.startsWith(NEWS)) {
-            channel.sendMessage(newsCommand(msg)).queue();
+            result = newsCommand(msg);
+        }else if (msg.startsWith(PLAYER)) {
+            result = playerInfoCommand(msg);
         }
+        if(result != null){
+            // output message max length
+            if (result.length() > 1997)
+                result = result.substring(0, 1998);
+            channel.sendMessage(result).queue();
+        }
+
     }
 
     private String newsCommand(String msg) {
@@ -42,14 +44,22 @@ public class SteamBot extends ABot {
         String outputMessage;
 
         if (!word.isEmpty()) {
-            String news = service.getGameNews(word);
-
-            // output message max length
-            if (news.length() > 1997)
-                news = news.substring(0, 1998);
-            outputMessage = news;
+            outputMessage = service.getGameNews(word);
         } else {
             outputMessage = NO_GAME_SPECIFIED_FOR_NEWS;
+        }
+
+        return outputMessage;
+    }
+
+    private String playerInfoCommand(String msg) {
+        String playerId = getArgForCmd(msg);
+        String outputMessage;
+
+        if (!playerId.isEmpty()) {
+            outputMessage = service.getPlayerInfo(playerId);
+        } else {
+            outputMessage = NO_PLAYER_SPECIFIED_FOR_INFO;
         }
 
         return outputMessage;

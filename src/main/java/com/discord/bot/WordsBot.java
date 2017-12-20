@@ -18,13 +18,6 @@ public class WordsBot extends ABot {
 
     protected final WordsUsageService ms = new WordsUsageService();
 
-    public static void main(String[] args)
-            throws LoginException, RateLimitedException, InterruptedException {
-
-        WordsBot bot = new WordsBot();
-        bot.createBot(ABot.WORDS);
-    }
-
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if(fromBot(event))
