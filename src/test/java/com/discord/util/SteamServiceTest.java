@@ -106,9 +106,10 @@ public class SteamServiceTest {
     }
 
     @Test
-    public void testGetPlayers() {
+    public void testGetPlayersArray() {
         JSONObject jsonObj = new JSONObject(PLAYER_INFO);
-        JSONArray array = service.getPlayersArray(jsonObj);
+        JSONArray array = SteamService.PLAYERS_INFO_PATH.getArray(jsonObj);
+
         assertTrue(array != null && array.length() == 1);
     }
 

@@ -37,14 +37,14 @@ public class SteamService {
     protected static final String GAME_NOT_FOUND = "Game not found";
     protected static final String PLAYER_NOT_FOUND = "Player not found";
 
-    private final List<String> playerInfoList = of("profileurl", "realname", "loccountrycode", "avatar")
+    private static final List<String> PLAYER_INFO_LIST = of("profileurl", "realname", "loccountrycode", "avatar")
             .collect(toCollection(ArrayList::new));
 
-    private final SteamJsonArrayPath appPath = new SteamJsonArrayPath(of("applist", "apps")
+    private static final SteamJsonArrayPath APP_PATH = new SteamJsonArrayPath(of("applist", "apps")
             .collect(toCollection(ArrayList::new)), "app");
-    private final SteamJsonArrayPath newsArrayPath = new SteamJsonArrayPath(of("appnews")
+    private static final SteamJsonArrayPath NEWS_ARRAY_PATH = new SteamJsonArrayPath(of("appnews")
             .collect(toCollection(ArrayList::new)), "newsitems");
-    private final SteamJsonArrayPath playersInfoPath = new SteamJsonArrayPath(of("response")
+    protected static final SteamJsonArrayPath PLAYERS_INFO_PATH = new SteamJsonArrayPath(of("response")
             .collect(toCollection(ArrayList::new)), "players");
 
 
@@ -55,7 +55,7 @@ public class SteamService {
 
         // initialize applications list
         JSONObject appList = getJsonObjectResponse(URI);
-        JSONArray array = appPath.getArray(appList);
+        JSONArray array = APP_PATH.getArray(appList);
 
         array.forEach(item -> {
             JSONObject obj = (JSONObject) item;
@@ -79,7 +79,7 @@ public class SteamService {
     protected String parseGameNews(JSONObject gameNewsJson) {
         StringBuilder result = new StringBuilder();
 
-        JSONArray newsArray = newsArrayPath.getArray(gameNewsJson);
+        JSONArray newsArray = NEWS_ARRAY_PATH.getArray(gameNewsJson);
 
         newsArray.forEach(item -> {
             JSONObject news = (JSONObject) item;
@@ -103,13 +103,13 @@ public class SteamService {
     protected String parsePlayerInfo(JSONObject gameNewsJson) {
         StringBuilder result = new StringBuilder();
 
-        JSONArray playerInfoArray = getPlayersArray(gameNewsJson);
+        JSONArray playerInfoArray = PLAYERS_INFO_PATH.getArray(gameNewsJson);
 
         if (playerInfoArray != null && playerInfoArray.length() > 0) {
             playerInfoArray.forEach(item -> {
                 JSONObject news = (JSONObject) item;
 
-                playerInfoList.forEach(info -> {
+                PLAYER_INFO_LIST.forEach(info -> {
                     if (news.has(info))
                         result.append(news.get(info)).append(SLASHN);
                 });
@@ -126,10 +126,6 @@ public class SteamService {
         }
 
         return result.toString();
-    }
-
-    protected JSONArray getPlayersArray(JSONObject playerInfoResponse) {
-        return playersInfoPath.getArray(playerInfoResponse);
     }
 
     private JSONObject getJsonObjectResponse(String uri) {
