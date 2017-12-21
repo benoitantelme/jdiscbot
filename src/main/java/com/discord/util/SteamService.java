@@ -34,8 +34,8 @@ public class SteamService {
     private static final String SLASHN = "\n";
     private static final String NAME = "name";
     private static final String APPID = "appid";
-    protected static final String GAME_NOT_FOUND = "Game not found";
-    protected static final String PLAYER_NOT_FOUND = "Player not found";
+    public static final String GAME_NOT_FOUND = "Game not found";
+    public static final String PLAYER_NOT_FOUND = "Player not found";
 
     private static final List<String> PLAYER_INFO_LIST = of("profileurl", "realname", "loccountrycode", "avatar")
             .collect(toCollection(ArrayList::new));

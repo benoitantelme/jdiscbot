@@ -10,8 +10,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class SteamServiceTest {
+    public static final String PLAYER_ID = "76561197960435530";
     private static final String EXPECTED = "578080";
-    private static final String PLAYER_INFO = "{\n" +
+
+    private JSONObject jsonObj = new JSONObject("{\n" +
             "\"response\":{\n" +
             "\"players\":[{\n" +
             "\"personastate\":0,\n" +
@@ -30,9 +32,9 @@ public class SteamServiceTest {
             "\"lastlogoff\":1512894857,\n" +
             "\"loccountrycode\":\"US\",\n" +
             "\"communityvisibilitystate\":3,\n" +
-            "\"loccityid\":3961}]}}";
+            "\"loccityid\":3961}]}}");
 
-    private final SteamService service = new SteamService();
+    private final static SteamService service = new SteamService();
 
     @Test
     public void testConstructor() {
@@ -46,8 +48,7 @@ public class SteamServiceTest {
 
     @Test()
     public void testGetGameNotFoundNews() {
-        assertEquals(SteamService.GAME_NOT_FOUND,
-                service.getGameNews("whateverthatgameis"));
+        assertEquals(SteamService.GAME_NOT_FOUND, service.getGameNews("whateverthatgameis"));
     }
 
     @Test
@@ -89,7 +90,8 @@ public class SteamServiceTest {
 
     @Test
     public void testGetPlayerInfoOk() {
-        assertFalse(service.getPlayerInfo("76561197960435530").isEmpty());
+
+        assertFalse(service.getPlayerInfo(PLAYER_ID).isEmpty());
     }
 
     @Test
@@ -99,15 +101,11 @@ public class SteamServiceTest {
 
     @Test
     public void testParsePlayerInfo() {
-        SteamService service = new SteamService();
-
-        JSONObject jsonObj = new JSONObject(PLAYER_INFO);
         assertFalse(service.parsePlayerInfo(jsonObj).isEmpty());
     }
 
     @Test
     public void testGetPlayersArray() {
-        JSONObject jsonObj = new JSONObject(PLAYER_INFO);
         JSONArray array = SteamService.PLAYERS_INFO_PATH.getArray(jsonObj);
 
         assertTrue(array != null && array.length() == 1);

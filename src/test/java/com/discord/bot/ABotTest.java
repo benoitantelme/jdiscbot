@@ -13,10 +13,10 @@ import static org.mockito.Mockito.when;
 
 public class ABotTest {
 
+    private static final WordsBot bot = new WordsBot();
+
     @Test
     public void testFromBot() {
-        WordsBot bot = new WordsBot();
-
         MessageReceivedEvent event = mock(MessageReceivedEvent.class);
         User author = mock(User.class);
         when(event.getAuthor()).thenReturn(author);
@@ -30,7 +30,6 @@ public class ABotTest {
 
     @Test
     public void testCreateBot() {
-        WordsBot bot = new WordsBot();
         try {
             bot.createBot(ABot.WORDS);
         } catch (Exception e) {
