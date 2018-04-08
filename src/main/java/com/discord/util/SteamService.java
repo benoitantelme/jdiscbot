@@ -29,6 +29,8 @@ public class SteamService {
     private static final String PLAYER_SUMMARY_API_1 = "ISteamUser/GetPlayerSummaries/v0002/?key=";
     private static final String PLAYER_SUMMARY_API_2 = "&steamids=";
 
+    private static final String STORE_FEATURED_API = "http://store.steampowered.com/api/featuredcategories/";
+
     private static final String TITLE = "title";
     private static final String CONTENTS = "contents";
     private static final String SLASHN = "\n";
@@ -36,8 +38,14 @@ public class SteamService {
     private static final String APPID = "appid";
     public static final String GAME_NOT_FOUND = "Game not found";
     public static final String PLAYER_NOT_FOUND = "Player not found";
+    public static final String SPECIAL_NOT_FOUND = "Specials not found";
+    public static final String DOT = ".";
+    public static final String PERCENT = " %";
 
     private static final List<String> PLAYER_INFO_LIST = of("profileurl", "realname", "loccountrycode", "avatar")
+            .collect(toCollection(ArrayList::new));
+    public static final String DISCOUNT_PERCENT = "discount_percent";
+    private static final List<String> SPECIALS_INFO_LIST = of("name", "small_capsule_image", DISCOUNT_PERCENT)
             .collect(toCollection(ArrayList::new));
 
     private static final SteamJsonArrayPath APP_PATH = new SteamJsonArrayPath(of("applist", "apps")
@@ -46,7 +54,8 @@ public class SteamService {
             .collect(toCollection(ArrayList::new)), "newsitems");
     protected static final SteamJsonArrayPath PLAYERS_INFO_PATH = new SteamJsonArrayPath(of("response")
             .collect(toCollection(ArrayList::new)), "players");
-
+    private static final SteamJsonArrayPath STORE_SPECIALS_PATH = new SteamJsonArrayPath(of("specials")
+            .collect(toCollection(ArrayList::new)), "items");
 
     protected final Map<String, String> mapOfGamesNameToId = new HashMap<>();
 
@@ -123,6 +132,47 @@ public class SteamService {
             });
         } else {
             result.append(PLAYER_NOT_FOUND);
+        }
+
+        return result.toString();
+    }
+
+    public String getStoreFeatured(){
+        JSONObject jsonResult = getJsonObjectResponse(STORE_FEATURED_API);
+
+        return parseStoreFeatured(jsonResult);
+    }
+
+    protected String parseStoreFeatured(JSONObject storeFeaturedNews) {
+        StringBuilder result = new StringBuilder();
+
+        JSONArray specialsInfoArray = STORE_SPECIALS_PATH.getArray(storeFeaturedNews);
+
+        if (specialsInfoArray != null && specialsInfoArray.length() > 0) {
+            specialsInfoArray.forEach(item -> {
+                JSONObject news = (JSONObject) item;
+
+                SPECIALS_INFO_LIST.forEach(info -> {
+                    if (news.has(info)) {
+                        if(info.equals(DISCOUNT_PERCENT))
+                            result.append(news.get(info)).append(PERCENT).append(SLASHN);
+                        else
+                            result.append(news.get(info)).append(SLASHN);
+                    }
+                });
+
+                String finalPrice = news.get("final_price").toString();
+                String currency = news.get("currency").toString();
+                if (finalPrice != null && currency != null) {
+                    result.append(finalPrice.substring(0, finalPrice.length()-2)).append(DOT).
+                            append(finalPrice.substring(finalPrice.length()-2, finalPrice.length())).append(CommonConstants.SPACE)
+                            .append(currency).append(SLASHN);
+                }
+
+                result.append(SLASHN).append(SLASHN);
+            });
+        } else {
+            result.append(SPECIAL_NOT_FOUND);
         }
 
         return result.toString();

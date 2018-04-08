@@ -1,5 +1,6 @@
 package com.discord.bot;
 
+import com.discord.util.SteamService;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
@@ -15,6 +16,8 @@ public class Main {
         WordsBot bot = new WordsBot();
 //        bot.createBot(ABot.WORDS);
         bot.createBot(ABot.STEAM);
+        SteamService service = new SteamService();
+        System.out.println(service.getStoreFeatured());
     }
 
 }
