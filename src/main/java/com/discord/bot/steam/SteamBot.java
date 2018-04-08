@@ -1,12 +1,9 @@
 package com.discord.bot.steam;
 
 import com.discord.bot.ABot;
-import com.discord.util.SteamService;
+import com.discord.services.SteamService;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-
-import javax.security.auth.login.LoginException;
 
 public class SteamBot extends ABot {
     protected static final String NEWS = "!news";
@@ -27,10 +24,10 @@ public class SteamBot extends ABot {
         String result = null;
         if (msg.startsWith(NEWS)) {
             result = newsCommand(msg);
-        }else if (msg.startsWith(PLAYER)) {
+        } else if (msg.startsWith(PLAYER)) {
             result = playerInfoCommand(msg);
         }
-        if(result != null){
+        if (result != null) {
             // output message max length
             if (result.length() > 1997)
                 result = result.substring(0, 1998);

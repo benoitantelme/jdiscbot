@@ -1,11 +1,8 @@
 package com.discord.bot;
 
-import com.discord.util.WordsUsageService;
+import com.discord.services.WordsUsageService;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-
-import javax.security.auth.login.LoginException;
 
 public class WordsBot extends ABot {
     public static final String ADD = "!add";

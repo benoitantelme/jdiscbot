@@ -1,6 +1,6 @@
 package com.discord.bot;
 
-import com.discord.util.SteamService;
+import com.discord.services.SteamService;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;

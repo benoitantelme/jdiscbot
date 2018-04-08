@@ -1,4 +1,4 @@
-package com.discord.util;
+package com.discord.services;
 
 import com.discord.constants.CommonConstants;
 import org.junit.Test;

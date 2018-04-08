@@ -1,8 +1,7 @@
 package com.discord.bot.steam;
 
 import com.discord.constants.CommonConstants;
-import com.discord.util.SteamService;
-import com.discord.util.SteamServiceTest;
+import com.discord.services.*;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -21,7 +20,7 @@ public class SteamBotTest {
     private static final String EMPTY_NEWS_CMD = SteamBot.NEWS + CommonConstants.SPACE;
     private static final String EMPTY_NEWS_CMD_2 = SteamBot.NEWS;
 
-    private static final String GOOD_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE + SteamServiceTest.PLAYER_ID;
+    private static final String GOOD_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE + SteamPlayerInfoServiceTest.PLAYER_ID;
     private static final String UNKNOWN_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE + "aaa";
     private static final String EMPTY_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE;
     private static final String EMPTY_PLAYER_CMD_2 = SteamBot.PLAYER;
@@ -57,7 +56,7 @@ public class SteamBotTest {
 
         when(message.getContent()).thenReturn(BAD_NEWS_CMD);
         bot.onMessageReceived(event);
-        verify(channel, times(1)).sendMessage(SteamService.GAME_NOT_FOUND);
+        verify(channel, times(1)).sendMessage(SteamAppNewsService.GAME_NOT_FOUND);
 
         when(message.getContent()).thenReturn(EMPTY_NEWS_CMD);
         bot.onMessageReceived(event);
@@ -79,7 +78,7 @@ public class SteamBotTest {
 
         when(message.getContent()).thenReturn(UNKNOWN_PLAYER_CMD);
         bot.onMessageReceived(event);
-        verify(channel, times(1)).sendMessage(SteamService.PLAYER_NOT_FOUND);
+        verify(channel, times(1)).sendMessage(SteamPlayerInfoService.PLAYER_NOT_FOUND);
 
         when(message.getContent()).thenReturn(EMPTY_PLAYER_CMD);
         bot.onMessageReceived(event);
