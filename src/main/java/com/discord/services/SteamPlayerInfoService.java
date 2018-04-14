@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Stream.of;
@@ -43,16 +44,12 @@ public class SteamPlayerInfoService {
             playerInfoArray.forEach(item -> {
                 JSONObject news = (JSONObject) item;
 
-                PLAYER_INFO_LIST.forEach(info -> {
-                    if (news.has(info))
-                        result.append(news.get(info)).append(SteamService.SLASHN);
-                });
+                PLAYER_INFO_LIST.stream().filter(info -> news.has(info))
+                        .forEach(availableInfo -> result.append(news.get(availableInfo)).append(SteamService.SLASHN));
 
-                Object timeOfCreation = news.get("timecreated");
-                if (timeOfCreation != null) {
-                    result.append(Instant.ofEpochSecond(Long.valueOf(timeOfCreation.toString())))
-                            .append(SteamService.SLASHN);
-                }
+                Optional<Object> timeOfCreation = Optional.of(news.get("timecreated"));
+                timeOfCreation.ifPresent(availableTime -> result.append(Instant.ofEpochSecond(Long.valueOf(availableTime.toString())))
+                            .append(SteamService.SLASHN));
 
                 result.append(SteamService.SLASHN).append(SteamService.SLASHN);
             });

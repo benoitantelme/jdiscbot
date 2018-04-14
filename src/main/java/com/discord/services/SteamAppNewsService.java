@@ -26,6 +26,7 @@ public class SteamAppNewsService {
     private static final String CONTENTS = "contents";
 
     public static final String GAME_NOT_FOUND = "Game not found";
+    private final JSONObject notFoundResult = new JSONObject("{\"error\": \"" + GAME_NOT_FOUND + "\"}");
 
     private static final SteamJsonArrayPath APP_PATH = new SteamJsonArrayPath(of("applist", "apps")
             .collect(toCollection(ArrayList::new)), "app");
@@ -49,11 +50,10 @@ public class SteamAppNewsService {
 
 
     public String getGameNews(String gameName) throws JSONException {
-        JSONObject jsonResult;
+        JSONObject jsonResult = notFoundResult;
         String id = getGameId(gameName);
-        if (id == null) {
-            jsonResult = new JSONObject("{\"error\": \"" + GAME_NOT_FOUND + "\"}");
-        } else {
+
+        if (id != null) {
             final String URI = SteamService.STEAM_API + NEWS_FOR_APP_API_1 + id + NEWS_FOR_APP_API_2;
             jsonResult = SteamService.getJsonObjectResponse(URI);
         }
