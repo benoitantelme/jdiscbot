@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.requests.restaction.ChannelAction;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class SteamBotTest {
@@ -24,6 +25,8 @@ public class SteamBotTest {
     private static final String UNKNOWN_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE + "aaa";
     private static final String EMPTY_PLAYER_CMD = SteamBot.PLAYER + CommonConstants.SPACE;
     private static final String EMPTY_PLAYER_CMD_2 = SteamBot.PLAYER;
+
+    private static final String GOOD_FEATURED_CMD = SteamBot.FEATURED;
 
     private final SteamBot bot = new SteamBot();
     private final MessageReceivedEvent event = mock(MessageReceivedEvent.class);
@@ -48,7 +51,6 @@ public class SteamBotTest {
 
     @Test
     public void testOnMessageReceivedForNewsCmd() {
-        //test add command
         when(message.getContent()).thenReturn(GOOD_NEWS_CMD);
         when(channel.sendMessage(anyString())).thenReturn(restAction);
         bot.onMessageReceived(event);
@@ -70,7 +72,6 @@ public class SteamBotTest {
 
     @Test
     public void testOnMessageReceivedForPlayerInfoCmd() {
-        //test add command
         when(message.getContent()).thenReturn(GOOD_PLAYER_CMD);
         when(channel.sendMessage(anyString())).thenReturn(restAction);
         bot.onMessageReceived(event);
@@ -88,6 +89,14 @@ public class SteamBotTest {
         when(message.getContent()).thenReturn(EMPTY_PLAYER_CMD_2);
         bot.onMessageReceived(event);
         verify(channel, times(2)).sendMessage(SteamBot.NO_PLAYER_SPECIFIED_FOR_INFO);
+    }
+
+    @Test
+    public void testOnMessageReceivedForFeaturedCmd() {
+        when(message.getContent()).thenReturn(GOOD_FEATURED_CMD);
+        when(channel.sendMessage(anyString())).thenReturn(restAction);
+        bot.onMessageReceived(event);
+        verify(channel, times(1)).sendMessage(anyString());
     }
 
 }

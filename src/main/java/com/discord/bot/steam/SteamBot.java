@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class SteamBot extends ABot {
     protected static final String NEWS = "!news";
     protected static final String PLAYER = "!player";
+    protected static final String FEATURED = "!featured";
     protected static final String NO_GAME_SPECIFIED_FOR_NEWS = "No game specified for news.";
     protected static final String NO_PLAYER_SPECIFIED_FOR_INFO = "No player id specified for info.";
 
@@ -26,6 +27,9 @@ public class SteamBot extends ABot {
             result = newsCommand(msg);
         } else if (msg.startsWith(PLAYER)) {
             result = playerInfoCommand(msg);
+        }
+        else if (msg.startsWith(FEATURED)) {
+            result = service.getStoreFeatured();
         }
         if (result != null) {
             // output message max length
@@ -61,6 +65,5 @@ public class SteamBot extends ABot {
 
         return outputMessage;
     }
-
 
 }
