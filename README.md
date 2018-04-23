@@ -15,3 +15,5 @@ Discord bots in Java
 
 ### SteamBot commands description:
 * News command: **!news _gameName_** | Gives you the last news for that game
+* Player info command: **!player _playerId_** | Gives you information for this player (use id not name)
+* Featured games command: **!featured** | Gives you the featured games information
