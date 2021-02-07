@@ -1,16 +1,15 @@
 package com.discord.services;
 
 import org.json.JSONObject;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;;
 
 public class SteamStoreFeaturedServiceTest {
 
     private static SteamStoreFeaturedService storeFeaturedService;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         SteamService service = new SteamService();
         storeFeaturedService = service.storeFeaturedService;

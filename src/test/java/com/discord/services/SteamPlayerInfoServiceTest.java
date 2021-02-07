@@ -2,12 +2,9 @@ package com.discord.services;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SteamPlayerInfoServiceTest {
 
@@ -15,7 +12,7 @@ public class SteamPlayerInfoServiceTest {
 
     private static SteamPlayerInfoService playerInfoService;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         SteamService service = new SteamService();
         playerInfoService = service.playerInfoService;

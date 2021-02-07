@@ -8,8 +8,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.ChannelAction;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -35,7 +35,7 @@ public class SteamBotTest {
     private final RestAction restAction = mock(ChannelAction.class);
 
 
-    @Before
+    @BeforeAll
     public void init() {
         User author = mock(User.class);
 

@@ -1,11 +1,9 @@
 package com.discord.services;
 
 import com.discord.constants.CommonConstants;
-import org.junit.Test;
-
 import java.util.Map;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WordsUsageServiceTest {
     private static final String APPLE = "apple";

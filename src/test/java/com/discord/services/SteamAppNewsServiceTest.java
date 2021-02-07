@@ -2,12 +2,11 @@ package com.discord.services;
 
 import com.discord.constants.CommonConstants;
 import org.json.JSONObject;
-import org.junit.Test;
 
 import static com.discord.services.SteamAppNewsService.GAME_NOT_FOUND;
 import static com.discord.services.SteamServiceTest.EXPECTED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SteamAppNewsServiceTest {
 
